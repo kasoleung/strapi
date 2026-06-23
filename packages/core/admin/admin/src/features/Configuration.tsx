@@ -44,6 +44,10 @@ interface ConfigurationContextValue {
     menu: ConfigurationLogo;
   };
   showReleaseNotification: boolean;
+  showMarketplace: boolean;
+  showTutorials: boolean;
+  showEdition: boolean;
+  showEmailSettings: boolean;
   updateProjectSettings: (body: UpdateProjectSettingsBody) => Promise<void>;
 }
 
@@ -59,6 +63,10 @@ interface ConfigurationProviderProps {
   defaultAuthLogo: StrapiApp['configurations']['authLogo'];
   defaultMenuLogo: StrapiApp['configurations']['menuLogo'];
   showReleaseNotification?: boolean;
+  showMarketplace?: boolean;
+  showTutorials?: boolean;
+  showEdition?: boolean;
+  showEmailSettings?: boolean;
 }
 
 const ConfigurationProvider = ({
@@ -66,6 +74,10 @@ const ConfigurationProvider = ({
   defaultAuthLogo,
   defaultMenuLogo,
   showReleaseNotification = false,
+  showMarketplace = true,
+  showTutorials = true,
+  showEdition = true,
+  showEmailSettings = true,
 }: ConfigurationProviderProps) => {
   const { trackUsage } = useTracking();
   const { formatMessage } = useIntl();
@@ -157,6 +169,10 @@ const ConfigurationProvider = ({
   return (
     <ConfigurationContextProvider
       showReleaseNotification={showReleaseNotification}
+      showMarketplace={showMarketplace}
+      showTutorials={showTutorials}
+      showEdition={showEdition}
+      showEmailSettings={showEmailSettings}
       logos={{
         menu: {
           custom: isSuccess

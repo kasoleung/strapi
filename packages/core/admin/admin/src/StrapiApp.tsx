@@ -59,6 +59,11 @@ interface StrapiAppConstructorArgs extends Partial<Pick<StrapiApp, 'appPlugins'>
     theme?: { light: DefaultTheme; dark: DefaultTheme };
     translations?: Record<string, Record<string, string>>;
     tutorials?: boolean;
+    marketplace?: boolean;
+    edition?: boolean;
+    plugins?: {
+      email?: boolean;
+    };
   };
 }
 
@@ -118,6 +123,11 @@ class StrapiApp {
     themes: { light: lightTheme, dark: darkTheme },
     translations: {},
     tutorials: true,
+    marketplace: true,
+    edition: true,
+    pluginSettings: {
+      email: true,
+    },
   };
 
   /**
@@ -308,6 +318,18 @@ class StrapiApp {
 
     if (customConfig.tutorials !== undefined) {
       this.configurations.tutorials = customConfig.tutorials;
+    }
+
+    if (customConfig.marketplace !== undefined) {
+      this.configurations.marketplace = customConfig.marketplace;
+    }
+
+    if (customConfig.edition !== undefined) {
+      this.configurations.edition = customConfig.edition;
+    }
+
+    if (customConfig.plugins?.email !== undefined) {
+      this.configurations.pluginSettings.email = customConfig.plugins.email;
     }
   };
 

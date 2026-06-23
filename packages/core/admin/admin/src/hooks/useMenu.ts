@@ -5,6 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { useTypedSelector } from '../core/store/hooks';
 import { useAuth, AuthContextValue } from '../features/Auth';
+import { useConfiguration } from '../features/Configuration';
 import { StrapiAppContextValue, useStrapiApp } from '../features/StrapiApp';
 
 /* -------------------------------------------------------------------------------------------------
@@ -33,8 +34,10 @@ const useMenu = (shouldUpdateStrapi: boolean) => {
   const rawMenu = useStrapiApp('useMenu', (state) => state.menu);
   const menu = React.useMemo(() => normalizeMenuLinks(rawMenu), [rawMenu]);
   const permissions = useTypedSelector((state) => state.admin_app.permissions);
-  const [menuWithUserPermissions, setMenuWithUserPermissions] = React.useState<Menu>({
-    generalSectionLinks: [
+  const { showMarketplace } = useConfiguration('useMenu');
+
+  const generalSectionLinks = React.useMemo(() => {
+    const links: MenuItem[] = [
       {
         icon: House,
         intlLabel: {
@@ -45,7 +48,10 @@ const useMenu = (shouldUpdateStrapi: boolean) => {
         permissions: [],
         position: 0,
       },
-      {
+    ];
+
+    if (showMarketplace) {
+      links.push({
         icon: ShoppingCart,
         intlLabel: {
           id: 'global.marketplace',
@@ -55,21 +61,28 @@ const useMenu = (shouldUpdateStrapi: boolean) => {
         target: '_blank',
         permissions: permissions.marketplace?.main ?? [],
         position: 7,
+      });
+    }
+
+    links.push({
+      icon: Cog,
+      intlLabel: {
+        id: 'global.settings',
+        defaultMessage: 'Settings',
       },
-      {
-        icon: Cog,
-        intlLabel: {
-          id: 'global.settings',
-          defaultMessage: 'Settings',
-        },
-        to: '/settings',
-        // Permissions of this link are retrieved in the init phase
-        // using the settings menu
-        permissions: [],
-        notificationsCount: 0,
-        position: 9,
-      },
-    ],
+      to: '/settings',
+      // Permissions of this link are retrieved in the init phase
+      // using the settings menu
+      permissions: [],
+      notificationsCount: 0,
+      position: 9,
+    });
+
+    return links;
+  }, [permissions.marketplace?.main, showMarketplace]);
+
+  const [menuWithUserPermissions, setMenuWithUserPermissions] = React.useState<Menu>({
+    generalSectionLinks,
     pluginsSectionLinks: [],
     topMobileNavigation: [
       {
@@ -92,7 +105,6 @@ const useMenu = (shouldUpdateStrapi: boolean) => {
     ],
     isLoading: true,
   });
-  const generalSectionLinksRef = React.useRef(menuWithUserPermissions.generalSectionLinks);
 
   React.useEffect(() => {
     async function applyMenuPermissions() {
@@ -102,7 +114,7 @@ const useMenu = (shouldUpdateStrapi: boolean) => {
       );
 
       const authorizedGeneralSectionLinks = await getGeneralLinks(
-        generalSectionLinksRef.current,
+        generalSectionLinks,
         shouldUpdateStrapi,
         checkUserHasPermissions
       );
@@ -118,7 +130,7 @@ const useMenu = (shouldUpdateStrapi: boolean) => {
     applyMenuPermissions();
   }, [
     setMenuWithUserPermissions,
-    generalSectionLinksRef,
+    generalSectionLinks,
     menu,
     permissions,
     shouldUpdateStrapi,

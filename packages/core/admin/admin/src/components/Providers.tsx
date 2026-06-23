@@ -56,11 +56,15 @@ const Providers = ({ children, strapi, store }: ProvidersProps) => {
                 <Theme themes={strapi.configurations.themes}>
                   <NotificationsProvider>
                     <TrackingProvider>
-                      <GuidedTourProvider>
+                      <GuidedTourProvider enabled={strapi.configurations.tutorials}>
                         <ConfigurationProvider
                           defaultAuthLogo={strapi.configurations.authLogo}
                           defaultMenuLogo={strapi.configurations.menuLogo}
                           showReleaseNotification={strapi.configurations.notifications.releases}
+                          showMarketplace={strapi.configurations.marketplace}
+                          showTutorials={strapi.configurations.tutorials}
+                          showEdition={strapi.configurations.edition}
+                          showEmailSettings={strapi.configurations.pluginSettings.email}
                         >
                           {children}
                         </ConfigurationProvider>

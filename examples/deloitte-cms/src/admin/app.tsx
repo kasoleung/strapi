@@ -18,6 +18,11 @@ export default {
       en: translations,
     },
     tutorials: false,
+    marketplace: false,
+    edition: false,
+    plugins: {
+      email: false,
+    },
     notifications: { releases: false },
   },
   bootstrap(_app: StrapiApp) {

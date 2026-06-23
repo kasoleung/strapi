@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { SETTINGS_LINKS_CE, SettingsMenuLink } from '../constants';
 import { useAppInfo } from '../features/AppInfo';
 import { useAuth } from '../features/Auth';
+import { useConfiguration } from '../features/Configuration';
 import { useStrapiApp } from '../features/StrapiApp';
 import { selectAdminPermissions } from '../selectors';
 import { PermissionMap } from '../types/permissions';
@@ -72,6 +73,7 @@ const useSettingsMenu = (): {
   );
   const shouldUpdateStrapi = useAppInfo('useSettingsMenu', (state) => state.shouldUpdateStrapi);
   const rawSettings = useStrapiApp('useSettingsMenu', (state) => state.settings);
+  const { showEmailSettings } = useConfiguration('useSettingsMenu');
   const settings = React.useMemo(() => normalizeSettings(rawSettings), [rawSettings]);
   const permissions = useSelector(selectAdminPermissions);
 
@@ -158,6 +160,9 @@ const useSettingsMenu = (): {
     };
 
     const { global, ...otherSections } = settings;
+    const pluginSections = showEmailSettings
+      ? Object.values(otherSections)
+      : Object.values(otherSections).filter((section) => section.id !== 'email');
     const sections = formatLinks([
       {
         ...global,
@@ -173,7 +178,7 @@ const useSettingsMenu = (): {
         intlLabel: { id: 'Settings.permissions', defaultMessage: 'Administration Panel' },
         links: adminLinks.map(addPermissions),
       },
-      ...Object.values(otherSections),
+      ...pluginSections,
     ]);
 
     getData();
@@ -184,6 +189,7 @@ const useSettingsMenu = (): {
     shouldUpdateStrapi,
     addPermissions,
     checkUserHasPermission,
+    showEmailSettings,
   ]);
 
   return {

@@ -29,7 +29,8 @@ const ApplicationInfoPage = () => {
   const { trackUsage } = useTracking();
   const { formatMessage } = useIntl();
   const { get } = useFetchClient();
-  const { logos: serverLogos, updateProjectSettings } = useConfiguration('ApplicationInfoPage');
+  const { logos: serverLogos, updateProjectSettings, showEdition } =
+    useConfiguration('ApplicationInfoPage');
   const [logos, setLogos] = React.useState({ menu: serverLogos.menu, auth: serverLogos.auth });
   const { settings } = useSelector(selectAdminPermissions);
 
@@ -195,36 +196,38 @@ const ApplicationInfoPage = () => {
                       )}
                     </Flex>
                   </Grid.Item>
-                  <Grid.Item col={6} xs={12} direction="column" alignItems="start">
-                    <Typography variant="sigma" textColor="neutral600" tag="dt">
-                      {formatMessage({
-                        id: 'Settings.application.edition-title',
-                        defaultMessage: 'current edition',
-                      })}
-                    </Typography>
-                    <Flex gap={3} direction="column" alignItems="start" tag="dd">
-                      <Typography>
-                        {formatMessage(
-                          {
-                            id: 'Settings.application.ee-or-ce',
-                            defaultMessage:
-                              '{communityEdition, select, true {Community Edition} other {Enterprise Edition}}',
-                          },
-                          { communityEdition }
-                        )}
-                      </Typography>
-                      <Link
-                        href="https://strapi.io/pricing-self-hosted"
-                        endIcon={<ExternalLink />}
-                        target="_blank"
-                      >
+                  {showEdition && (
+                    <Grid.Item col={6} xs={12} direction="column" alignItems="start">
+                      <Typography variant="sigma" textColor="neutral600" tag="dt">
                         {formatMessage({
-                          id: 'Settings.application.link-pricing',
-                          defaultMessage: 'See all pricing plans',
+                          id: 'Settings.application.edition-title',
+                          defaultMessage: 'current edition',
                         })}
-                      </Link>
-                    </Flex>
-                  </Grid.Item>
+                      </Typography>
+                      <Flex gap={3} direction="column" alignItems="start" tag="dd">
+                        <Typography>
+                          {formatMessage(
+                            {
+                              id: 'Settings.application.ee-or-ce',
+                              defaultMessage:
+                                '{communityEdition, select, true {Community Edition} other {Enterprise Edition}}',
+                            },
+                            { communityEdition }
+                          )}
+                        </Typography>
+                        <Link
+                          href="https://strapi.io/pricing-self-hosted"
+                          endIcon={<ExternalLink />}
+                          target="_blank"
+                        >
+                          {formatMessage({
+                            id: 'Settings.application.link-pricing',
+                            defaultMessage: 'See all pricing plans',
+                          })}
+                        </Link>
+                      </Flex>
+                    </Grid.Item>
+                  )}
 
                   <Grid.Item col={6} xs={12} direction="column" alignItems="start">
                     <Typography variant="sigma" textColor="neutral600" tag="dt">

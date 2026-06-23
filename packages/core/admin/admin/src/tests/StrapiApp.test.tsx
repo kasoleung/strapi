@@ -654,6 +654,24 @@ describe('ADMIN | new StrapiApp', () => {
       expect(app.configurations.tutorials).toBeFalsy();
     });
 
+    it('should override the marketplace visibility', () => {
+      const app = new StrapiApp({ config: { marketplace: false } });
+
+      expect(app.configurations.marketplace).toBeFalsy();
+    });
+
+    it('should override the edition visibility', () => {
+      const app = new StrapiApp({ config: { edition: false } });
+
+      expect(app.configurations.edition).toBeFalsy();
+    });
+
+    it('should override the email plugin settings visibility', () => {
+      const app = new StrapiApp({ config: { plugins: { email: false } } });
+
+      expect(app.configurations.pluginSettings.email).toBeFalsy();
+    });
+
     it('should override the release notification', () => {
       const app = new StrapiApp({ config: { notifications: { releases: false } } });
 
