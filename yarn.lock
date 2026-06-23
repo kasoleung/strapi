@@ -16148,6 +16148,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"deloitte-cms@workspace:examples/deloitte-cms":
+  version: 0.0.0-use.local
+  resolution: "deloitte-cms@workspace:examples/deloitte-cms"
+  dependencies:
+    "@strapi/plugin-users-permissions": "workspace:*"
+    "@strapi/strapi": "workspace:*"
+    "@types/node": "npm:^20"
+    "@types/react": "npm:^18"
+    "@types/react-dom": "npm:^18"
+    better-sqlite3: "npm:12.8.0"
+    react: "npm:18.3.1"
+    react-dom: "npm:18.3.1"
+    react-router-dom: "npm:6.30.3"
+    styled-components: "npm:6.4.1"
+    typescript: "npm:^5"
+  languageName: unknown
+  linkType: soft
+
 "denque@npm:^2.1.0":
   version: 2.1.0
   resolution: "denque@npm:2.1.0"
