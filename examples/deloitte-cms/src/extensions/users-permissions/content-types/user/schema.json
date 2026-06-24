@@ -1,0 +1,15 @@
+{
+  "attributes": {
+    "displayName": {
+      "type": "string"
+    },
+    "preferredVisitBase": {
+      "type": "string"
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "required": false
+    }
+  }
+}
