@@ -28,7 +28,7 @@ const DefaultDocument = ({ entryPath }: DefaultDocumentProps) => {
         <meta name="robots" content="noindex" />
         <meta name="referrer" content="same-origin" />
 
-        <title>Strapi Admin</title>
+        <title>Deloitte Admin</title>
         <style>{globalStyles}</style>
       </head>
       <body>
