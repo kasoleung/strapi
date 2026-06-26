@@ -198,6 +198,10 @@ const Providers = ({ children, initialEntries, storeConfig, permissions = [] }: 
                             <GuidedTourContext enabled={false}>
                               <ConfigurationContextProvider
                                 showReleaseNotification={false}
+                                showMarketplace
+                                showTutorials
+                                showEdition
+                                showEmailSettings
                                 logos={{
                                   auth: { default: 'default' },
                                   menu: { default: 'default' },
